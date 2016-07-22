@@ -1,0 +1,22 @@
+consumer:
+    key: ***
+    secret: ***
+access_token:
+    key: ***-***
+    secret: ***
+images:
+    savedest: /srv/http/eshi/cont
+server:
+    root: http://eshi.7kry.net
+    cont: /cont
+auth:
+    user: ***
+    pass: ***
+database:
+    type: SqliteDatabase
+    path: /srv/http/eshi/db
+target:
+    type: list_timeline
+    args:
+        list_id: 754086209333239808
+        count: 200

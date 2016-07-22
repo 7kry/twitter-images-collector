@@ -1,0 +1,4 @@
+*.pyc
+/conf.yml
+/db
+/cont
