@@ -44,6 +44,7 @@ def fetch_media(t):
       with urllib.request.urlopen(m['media_url_https'] + ':orig') as res:
         cont = res.read()
     except:
+      print(sys.exc_info()[0], file = sys.stderr)
       time.sleep(1)
     h = hashlib.md5()
     h.update(cont)
@@ -84,9 +85,10 @@ class FetchThread(threading.Thread):
               img = models.Image(tweet = item, filename = fn)
               img.save()
         db.commit()
-        print('COMMIT')
+        print('COMMIT', file = sys.stderr)
         time.sleep(90)
       except tweepy.error.TweepError:
+        print(sys.exc_info()[0], file = sys.stderr)
         time.sleep(10)
 
 FetchThread().start()
@@ -112,7 +114,6 @@ def static(filename):
 @bottle.auth_basic(auth)
 def list():
   maxid = bottle.request.query.get('maxid', None)
-  print(maxid)
   imgs = models.Image.select().order_by(models.Image.id.desc()).limit(100)
   if maxid is not None:
     imgs = imgs.where(models.Image.id <= maxid)
