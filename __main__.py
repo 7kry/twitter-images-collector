@@ -15,12 +15,14 @@ import sys
 import threading
 import time
 import urllib.request
+import urllib.parse
 
 # local
 import dbsetup
 models = dbsetup.models
 
-CONF = yaml.load(open(sys.argv[1]))
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+CONF    = yaml.load(open(sys.argv[1]))
 
 def tweepy_api_init():
   ah = tweepy.OAuthHandler(CONF['consumer']['key'], CONF['consumer']['secret'])
@@ -90,42 +92,17 @@ class FetchThread(threading.Thread):
 
 FetchThread().start()
 
-#@bottle.route("/")
-#@bottle.auth_basic(auth)
-#def form():
-#  return bottle.static_file("form.html", root = APP_PATH)
-#
-#@bottle.route("/submit", method = "POST")
-#@bottle.auth_basic(auth)
-#def submit():
-#  try:
-#    checksums = bottle.request.forms.get("checksums").split(",")
-#    files     = list(map(lambda form: form[1], filter(lambda form: form[0] == "photos", bottle.request.POST.allitems())))
-#    if len(checksums) != len(files):
-#      raise AttributeError
-#    passed = []
-#    for f, s in zip(files, checksums):
-#      with tempfile.TemporaryFile("w+b") as tmp:
-#        f.save(tmp)
-#        tmp.flush()
-#        tmp.seek(0)
-#        bytes_str= tmp.read()
-#        h = hashlib.sha256()
-#        h.update(bytes_str)
-#        assert(s == "".join(map(lambda c: "%02x" % c, h.digest())))
-#        passed.append(("%s.%s%s" % (datetime.date.today().strftime("%Y-%m-%d"), s, os.path.splitext(f.raw_filename)[1]), bytes_str))
-#    for fn, b in passed:
-#      open(os.path.join(CONTENT_PATH, fn), "wb").write(b)
-#    return {
-#      "urls": list(map(lambda elem: MEDIA_SERVER + elem[0], passed)),
-#    }
-#  except AssertionError as e:
-#    return {
-#      "error": "Invalid File (%s)" % e.message,
-#    }
-#  except AttributeError:
-#    return {
-#      "error": "Insufficient Request",
-#    }
-#
-#bottle.run(host = "0.0.0.0", port = 3010)
+@bottle.route("/")
+@bottle.auth_basic(auth)
+def index():
+  imgs = models.Image.select().order_by(models.Image.id.desc()).limit(100)
+  imgs = [(img.id, os.path.join(CONF['server']['cont'], img.filename), img.tweet.tid, img.tweet.screen_name, img.tweet.text) for img in imgs]
+  return bottle.jinja2_template(os.path.join(APP_DIR, 'index.jinja2'), imgs = imgs)
+
+@bottle.route(CONF['server']['cont'] + '/<filename:path>')
+@bottle.auth_basic(auth)
+def cont(filename):
+  print(filename, CONF['images']['savedest'])
+  return bottle.static_file(filename, root = CONF['images']['savedest'])
+
+bottle.run(host = "0.0.0.0", port = 3054)

@@ -1,0 +1,3 @@
+{% for imgid, fn, tid, scrname, text in imgs %}
+<article><a href='https://twitter.com/{{scrname}}/status/{{tid}}' target='_blank'><img src='{{fn}}' alt='{{text}}' data-imgid='{{imgid}}'></a></article>
+{% endfor %}
