@@ -7,7 +7,8 @@ access_token:
 images:
     savedest: /srv/http/eshi/cont
 server:
-    root: http://eshi.7kry.net
+    host: 0.0.0.0
+    port: 8080
     cont: /cont
 auth:
     user: ***

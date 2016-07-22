@@ -105,4 +105,4 @@ def cont(filename):
   print(filename, CONF['images']['savedest'])
   return bottle.static_file(filename, root = CONF['images']['savedest'])
 
-bottle.run(host = "0.0.0.0", port = 3054)
+bottle.run(host = CONF['server']['host'], port = CONF['server']['port'])
