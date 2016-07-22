@@ -97,13 +97,17 @@ FetchThread().start()
 def index():
   imgs = models.Image.select().order_by(models.Image.id.desc()).limit(100)
   imgs = [(img.id, os.path.join(CONF['server']['cont'], img.filename), img.tweet.tid, img.tweet.screen_name, img.tweet.text) for img in imgs]
-  return bottle.jinja2_template(os.path.join(APP_DIR, 'index.jinja2'), imgs = imgs)
+  return bottle.jinja2_template(os.path.join(APP_DIR, 'index.jinja2'), imgs = imgs, appname = CONF['appname'])
 
 @bottle.route(CONF['server']['cont'] + '/<filename:path>')
 @bottle.auth_basic(auth)
 def cont(filename):
-  print(filename, CONF['images']['savedest'])
   return bottle.static_file(filename, root = CONF['images']['savedest'])
+
+@bottle.route('/static/<filename:path>')
+@bottle.auth_basic(auth)
+def static(filename):
+  return bottle.static_file(filename, root = os.path.join(APP_DIR, 'static'))
 
 @bottle.route('/list.json')
 @bottle.auth_basic(auth)
