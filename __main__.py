@@ -43,7 +43,7 @@ def fetch_media(t):
       with urllib.request.urlopen(m['media_url_https'] + ':orig') as res:
         cont = res.read()
     except:
-      sleep(1)
+      time.sleep(1)
     h = hashlib.md5()
     h.update(cont)
     fn = '{0}{1:02d}{2:02d}{3:02d}{4:02d}{5:02d}.{6}.{7}'.format(
