@@ -29,7 +29,7 @@ def tweepy_api_init():
   return tweepy.API(ah)
 
 api = tweepy_api_init()
-db  = peewee.__dict__[CONF['database']['type']](CONF['database']['path'])
+db  = getattr(peewee, CONF['database']['type'])(CONF['database']['path'], **CONF['database'].get('args', {}))
 dbsetup.init(db)
 
 def fetch_tweets():
