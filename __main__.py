@@ -15,7 +15,6 @@ import sys
 import threading
 import time
 import urllib.request
-import urllib.parse
 
 # local
 import dbsetup
@@ -96,7 +95,7 @@ FetchThread().start()
 @bottle.auth_basic(auth)
 def index():
   imgs = models.Image.select().order_by(models.Image.id.desc()).limit(100)
-  imgs = [(img.id, os.path.join(CONF['server']['cont'], img.filename), img.tweet.tid, img.tweet.screen_name, img.tweet.text) for img in imgs]
+  imgs = [(img.id, CONF['server']['cont'] + '/' + img.filename, img.tweet.tid, img.tweet.screen_name, img.tweet.text) for img in imgs]
   return bottle.jinja2_template(os.path.join(APP_DIR, 'index.jinja2'), imgs = imgs, appname = CONF['appname'])
 
 @bottle.route(CONF['server']['cont'] + '/<filename:path>')
