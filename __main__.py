@@ -105,4 +105,21 @@ def cont(filename):
   print(filename, CONF['images']['savedest'])
   return bottle.static_file(filename, root = CONF['images']['savedest'])
 
+@bottle.route('/list.json')
+@bottle.auth_basic(auth)
+def list():
+  maxid = bottle.request.query.get('maxid', None)
+  print(maxid)
+  imgs = models.Image.select().order_by(models.Image.id.desc()).limit(100)
+  if maxid is not None:
+    imgs = imgs.where(models.Image.id <= maxid)
+  imgs = [
+      {
+        'id': img.id,
+        'src': os.path.join(CONF['server']['cont'], img.filename),
+        'href': 'https://twitter.com/{1}/status/{0}'.format(img.tweet.tid, img.tweet.screen_name),
+        'alt': img.tweet.text,
+      } for img in imgs]
+  return {'imgs': imgs}
+
 bottle.run(host = CONF['server']['host'], port = CONF['server']['port'])
