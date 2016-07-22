@@ -4,25 +4,121 @@
   <meta charset='utf-8'>
   <title>{{appname}}</title>
   <style>
+    /* HTML/CSS/JS by @skielred */
+    /* Sorry for the memes I couldn't resist */
     body {
+      /* Removing margins/padding on body, because it has default values on many browsers */
       margin:0;border:0;padding:0;
+      /* F̶i̶f̶t̶y̶ ̶s̶h̶a̶d̶e̶s̶ ̶o̶f̶ grey */
       background-color:#333;
     }
+    #pics li, #settings > * {
+      /* smooooth・∀・*/
+      transition: all .573s; /* KONMAI */
+    }
     #pics {
+      /* We use a styled list element to display pics, because it's the most relevant element for our use */
       list-style: none;
-      margin: 0;
+      margin: 0 auto;
       padding: 0;
-      width: 100%;
+      width: 90%;
+      max-width: 828px;
     }
     #pics li {
-      width: 90%;
-      max-width: 800px;
-      margin: auto;
+      margin: 5px auto;
+    }
+    #pics.grid li {
+      /* This is for grid view to actually be a grid */
+      width: calc(33% - 10px);
+      display: inline-block;
+      /* This is for grid view to not appear weird */
       vertical-align: top;
     }
     #pics li img {
+      /* Avoid images from overlapping parent element */
       width: 100%;
+      /* smooooth・∀・ corners */
       border-radius: 4px;
+      /* smooooth・∀・ shadows */
+      box-shadow: 0 0 5px 1px #000;
+    }
+    #settings > * {
+      /* We don't want those to cover all the screen so we use inline-block display property */
+      display: inline-block;
+      /* F̶i̶f̶t̶y̶ ̶s̶h̶a̶d̶e̶s̶ ̶o̶f̶ grey -remix- */
+      background-color: #A7A7A7;
+      color: #fff;
+      position: fixed;
+      bottom: 1em;
+      right: 1em;
+    }
+    #settings_open, #settings_close {
+      /* We want settings button to be a circle, because Material Design = why not ? */
+      border-radius: 50%;
+      /* smooooth・∀・ shadows */
+      box-shadow: 0 0 8px 0 #000;
+      /* We make the user believe that this is a button while it's just a div element */
+      cursor: pointer;
+      background-size: 100% 100%;
+      z-index: 2;
+    }
+    #settings_panel, #settings.active #settings_close  {
+      transition-delay: .5s;
+    }
+    #settings_open {
+      width: 100px;
+      height: 100px;
+      /* I prefered to use a background image instead of a character because it's (A LOT) easier to center it across every browsers */
+      background-image: url('static/settings-icon.png');
+    }
+    #settings_close {
+      width: 40px;
+      height: 40px;
+      right: -60px;
+      bottom: 1.5em;
+      background-image: url('static/close-icon.png');
+    }
+    #settings_panel {
+      width: 300px;
+      max-height: 350px;
+      border-radius: 8px;
+      padding: .5em .5em calc(2em + 50px);
+      right: -500px;
+      z-index: 1;
+      overflow-y: auto;
+      font-size: 15px;
+    }
+    #settings table, #settings_panel input {
+      width: 100%;
+      margin: 0;
+    }
+    #settings td:nth-child(1) {
+      text-align: right;
+    }
+    #settings_panel input[type="radio"] {
+      display: inline-block;
+      width: 30px;
+    }
+    #settings.active #settings_panel {
+      right: 1em;
+    }
+    #settings.active #settings_open {
+      right: -120px;
+      transition-delay: 0;
+    }
+    #settings.active #settings_close {
+      right: 1.5em;
+    }
+    #settings.active #settings_open, #settings.active #settings_close {
+      transform: rotate(720deg);
+    }
+    /* If screen is too small we change some elements */
+    @media (max-width: 600px) {
+      #settings_trigger {
+        /* We avoid settings button from being too big on small screens */
+        width: 45px;
+        height: 45px;
+      }
     }
   </style>
   <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
@@ -34,5 +130,22 @@
     <li><a href='https://twitter.com/{{scrname}}/status/{{tid}}' target='_blank'><img src='{{fn}}' alt='{{text}}' data-imgid='{{imgid}}'></a></li>
     {% endfor %}
   </ul>
+  <div id="settings">
+    <div onclick="settings_switch()" id="settings_open"></div>
+    <div onclick="settings_switch()" id="settings_close"></div>
+    <div id="settings_panel">
+      <table>
+        <tr>
+          <td>Page Size :</td>
+          <td><input id="settings_mainsize" type="range" min="0" max="30" value="8" name="settings_mainsize" /></td>
+        </tr>
+        <tr>
+          <td>Display type :</td>
+          <td id="settings_display"><input id="settings_display-list" type="radio" name="settings_display" checked value="list"><label for="settings_display-list">List</label> <input id="settings_display-grid" type="radio" name="settings_display" value="grid"><label for="settings_display-grid">Grid</label></td>
+        </tr>
+      </table>
+      <p id="copy" style="position:absolute;bottom:.5em;text-align:right">Copyright &copy; 2016, 7kry &amp; skielred.</p>
+    </div>
+  </div>
 </body>
 </html>
