@@ -15,6 +15,7 @@ import sys
 import threading
 import time
 import urllib.request
+import urllib.error
 
 # local
 import dbsetup
@@ -40,11 +41,19 @@ def fetch_media(t):
   if hasattr(t, 'retweeted_status'):
     t = t.retweeted_status
   for m in itertools.chain(t.entities.get('media', []), getattr(t, 'extended_entities', {}).get('media', [])):
-    try:
-      with urllib.request.urlopen(m['media_url_https'] + ':orig') as res:
-        cont = res.read()
-    except:
-      time.sleep(1)
+    cont = None
+    while True:
+      try:
+        with urllib.request.urlopen(m['media_url_https'] + ':orig') as res:
+          cont = res.read()
+        break
+      except urllib.error.HTTPError as e:
+        print(sys.exc_info()[0], file = sys.stderr)
+        if e.code // 100 == 4:
+          break
+        time.sleep(1)
+    if cont is None:
+      continue
     h = hashlib.md5()
     h.update(cont)
     fn = '{0}{1:02d}{2:02d}{3:02d}{4:02d}{5:02d}.{6}.{7}'.format(
@@ -84,9 +93,10 @@ class FetchThread(threading.Thread):
               img = models.Image(tweet = item, filename = fn)
               img.save()
         db.commit()
-        print('COMMIT')
+        print('COMMIT', file = sys.stderr)
         time.sleep(90)
       except tweepy.error.TweepError:
+        print(sys.exc_info()[0], file = sys.stderr)
         time.sleep(10)
 
 FetchThread().start()
@@ -112,7 +122,6 @@ def static(filename):
 @bottle.auth_basic(auth)
 def list():
   maxid = bottle.request.query.get('maxid', None)
-  print(maxid)
   imgs = models.Image.select().order_by(models.Image.id.desc()).limit(100)
   if maxid is not None:
     imgs = imgs.where(models.Image.id <= maxid)
