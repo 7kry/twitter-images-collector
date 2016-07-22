@@ -123,7 +123,7 @@ def static(filename):
 def list():
   maxid = bottle.request.query.get('maxid', None)
   imgs = models.Image.select().order_by(models.Image.id.desc()).limit(100)
-  if maxid is not None:
+  if maxid is not None and maxid.isdecimal():
     imgs = imgs.where(models.Image.id <= maxid)
   imgs = [
       {
