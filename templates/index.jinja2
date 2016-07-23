@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang='ja'>
 <head>
-  <meta charset='utf-8'>
+  <meta charset='utf-8' />
+  <meta name="viewport" content="width=device-width,user-scalable=no" />
   <title>{{appname}}</title>
   <link rel='stylesheet' href='static/app.css' />
   <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
@@ -11,7 +12,7 @@
 <body>
   <ul id="pics">
     {% for imgid, fn, tid, scrname, text in imgs %}
-    <li><a href='https://twitter.com/{{scrname}}/status/{{tid}}' target='_blank'><img src='{{fn}}' alt='{{text}}' data-imgid='{{imgid}}'></a></li>
+    <li><a href="https://twitter.com/{{scrname}}/status/{{tid}}" target="_blank"><img src="{{fn}}" alt="{{text}}" data-imgid="{{imgid}}"></a></li>
     {% endfor %}
   </ul>
   <div id="settings">
