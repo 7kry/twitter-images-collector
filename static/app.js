@@ -22,8 +22,8 @@ $(document).ready(function() {
     v = $.cookie('grid');
     if (v === '1') {
       $('#pics').addClass('grid');
-      $('#settings_display-list').prop('checked', true);
-      $('#settings_display-grid').prop('checked', false);
+      $('#settings_display-list').prop('checked', false);
+      $('#settings_display-grid').prop('checked', true);
     } else {
       $('#pics').removeClass('grid');
       $('#settings_display-list').prop('checked', true);
