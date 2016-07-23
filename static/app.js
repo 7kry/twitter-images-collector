@@ -75,7 +75,7 @@ $(document).ready(function() {
   $('#hook').hook({
     'refresh': false,
     'callback': function() {
-      fetch($('#pics > li:nth-child(1)').attr('data-imgid') + 100);
+      fetch(parseInt($('#pics > li:nth-child(1)').attr('data-imgid')) + 100);
     }});
   fetch(null);
 });
