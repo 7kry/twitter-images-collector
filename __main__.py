@@ -134,4 +134,4 @@ def list():
       } for img in imgs]
   return {'imgs': imgs}
 
-bottle.run(host = CONF['server']['host'], port = CONF['server']['port'])
+bottle.run(server = CONF.get('lib', 'auto'), host = CONF['server']['host'], port = CONF['server']['port'])
