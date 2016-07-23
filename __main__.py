@@ -40,7 +40,7 @@ def fetch_media(t):
   ret = []
   if hasattr(t, 'retweeted_status'):
     t = t.retweeted_status
-  for m in itertools.chain(t.entities.get('media', []), getattr(t, 'extended_entities', {}).get('media', [])):
+  for m in reversed(getattr(t, 'extended_entities', t.entities).get('media', [])):
     cont = None
     while True:
       try:
