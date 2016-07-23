@@ -7,6 +7,33 @@ function settings_switch() {
     p.className = '';
   }
 }
+function fetch(maxid) {
+  if (typeof(maxid) === null){
+    maxid = $.cookie('latestid');
+  }
+  $.ajax('/list.json?maxid=' + maxid).done(function(data) {
+    data['imgs'].forEach(function(ent) {
+      if ($('#pics > a[data-imgid=' + ent['id'] + ']').length > 0) {
+        return;
+      }
+      var a = $('<a>')
+        .attr({
+            'href': ent['href'],
+            'target': '_blank',
+            'data-imgid': ent['id']
+          })
+        .append($('<img>').attr({
+            'src': ent['src'],
+            'alt': ent['alt']
+          }));
+      if ($('#pics > a').length < 1 || ent['id'] > $('#pics > a:nth-child(1)').attr('data-imgid')) {
+        a.prependTo('#pics');
+      } else {
+        a.appendTo('#pics');
+      }
+    });
+  });
+}
 $(document).ready(function() {
   $('#settings_mainsize').on("change mousemove", function() {
     var v = $(this).val() * 66 + 300;
@@ -39,5 +66,6 @@ $(document).ready(function() {
       $.cookie('grid', '1');
     }
   });
+  fetch(null);
 });
 // vim:et:ts=2:sts=2:sw=2
