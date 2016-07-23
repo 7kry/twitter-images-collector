@@ -71,7 +71,7 @@ def fetch_media(t):
       with open(dest, 'wb') as f:
         f.write(cont)
     ret.append(fn)
-  return set(ret)
+  return ret
 
 def auth(username, password):
   return username == CONF['auth']['user'] and password == CONF['auth']['pass']
