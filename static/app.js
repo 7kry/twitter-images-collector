@@ -16,20 +16,23 @@ function fetch(maxid) {
       if ($('#pics > a[data-imgid=' + ent['id'] + ']').length > 0) {
         return;
       }
-      var a = $('<a>')
+      var li = $('<li>')
         .attr({
-            'href': ent['href'],
-            'target': '_blank',
-            'data-imgid': ent['id']
-          })
-        .append($('<img>').attr({
-            'src': ent['src'],
-            'alt': ent['alt']
-          }));
-      if ($('#pics > a').length < 1 || ent['id'] > $('#pics > a:nth-child(1)').attr('data-imgid')) {
-        a.prependTo('#pics');
+          'data-imgid': ent['id']
+        }).append(
+          $('<a>')
+          .attr({
+              'href': ent['href'],
+              'target': '_blank',
+            })
+          .append($('<img>').attr({
+              'src': ent['src'],
+              'alt': ent['alt']
+            })));
+      if ($('#pics > li').length < 1 || ent['id'] > $('#pics > li:nth-child(1)').attr('data-imgid')) {
+        li.prependTo('#pics');
       } else {
-        a.appendTo('#pics');
+        li.appendTo('#pics');
       }
     });
   });
