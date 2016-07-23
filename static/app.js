@@ -16,6 +16,9 @@ function fetch(maxid) {
       if ($('#pics > a[data-imgid=' + ent['id'] + ']').length > 0) {
         return;
       }
+      if (typeof($.cookie('latestid')) === 'undefined' || ent['id'] > $.cookie('latestid')) {
+        $.cookie('latestid', ent['id']);
+      }
       var li = $('<li>')
         .attr({
           'data-imgid': ent['id']
@@ -69,6 +72,11 @@ $(document).ready(function() {
       $.cookie('grid', '1');
     }
   });
+  $('#hook').hook({
+    'refresh': false,
+    'callback': function() {
+      fetch($('#pics > li:nth-child(1)').attr('data-imgid') + 100);
+    }});
   fetch(null);
 });
 // vim:et:ts=2:sts=2:sw=2
