@@ -63,14 +63,14 @@ body {
   width: 100px;
   height: 100px;
   /* I prefered to use a background image instead of a character because it's (A LOT) easier to center it across every browsers */
-  background-image: url('static/settings-icon.png');
+  background-image: url('settings-icon.png');
 }
 #settings_close {
   width: 40px;
   height: 40px;
   right: -60px;
   bottom: 1.5em;
-  background-image: url('static/close-icon.png');
+  background-image: url('close-icon.png');
 }
 #settings_panel {
   width: 300px;
