@@ -1,38 +1,45 @@
 <!DOCTYPE html>
 <html lang='ja'>
-<head>
-  <meta charset='utf-8' />
-  <meta name="viewport" content="width=device-width,user-scalable=no" />
-  <title>{{appname}}</title>
-  <link rel='stylesheet' href='static/app.css' />
-  <link rel='stylesheet' href='https://cdn.rawgit.com/jordansinger/Hook/master/hook.css' />
-  <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
-  <script src='https://cdn.rawgit.com/carhartl/jquery-cookie/master/src/jquery.cookie.js'></script>
-  <script src='https://cdn.rawgit.com/jordansinger/Hook/master/hook.min.js'></script>
-  <script src='/static/app.js'></script>
-</head>
-<body>
-  <div id='hook'>
-    <img src='/static/loading.gif' alt='Now Loading...' />
-  </div>
-  <ul id="pics">
-  </ul>
-  <div id="settings">
-    <div onclick="settings_switch()" id="settings_open"></div>
-    <div onclick="settings_switch()" id="settings_close"></div>
-    <div id="settings_panel">
-      <table>
-        <tr>
-          <td>Page Size :</td>
-          <td><input id="settings_mainsize" type="range" min="0" max="30" value="8" name="settings_mainsize" /></td>
-        </tr>
-        <tr>
-          <td>Display type :</td>
-          <td id="settings_display"><input id="settings_display-list" type="radio" name="settings_display" checked value="list"><label for="settings_display-list">List</label> <input id="settings_display-grid" type="radio" name="settings_display" value="grid"><label for="settings_display-grid">Grid</label></td>
-        </tr>
-      </table>
-      <p id="copy" style="position:absolute;bottom:.5em">Copyright &copy; 2016, 7kry &amp; skielred.</p>
+  <head>
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <title>{{appname}}</title>
+    <link rel='stylesheet' href='static/app.css' />
+    <link rel='stylesheet' href='https://cdn.rawgit.com/jordansinger/Hook/master/hook.css' />
+    <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+    <script src='https://cdn.rawgit.com/carhartl/jquery-cookie/master/src/jquery.cookie.js'></script>
+    <script src='https://cdn.rawgit.com/jordansinger/Hook/master/hook.min.js'></script>
+    <script src='https://cdn.rawgit.com/jimyi/jquery_bottom/master/jquery.bottom-1.0.js'></script>
+    <script src='/static/app.js'></script>
+  </head>
+  <body>
+    <div id="hook">
+      <div id="loader">
+        <div class="spinner"></div>
+      </div>
+      <span id="hook-text">Now Loading...</span>
     </div>
-  </div>
-</body>
+    <ul id="pics">
+    </ul>
+    <div id="settings">
+      <div onclick="settings_switch()" id="settings_open"></div>
+      <div onclick="settings_switch()" id="settings_close"></div>
+      <div id="settings_panel">
+        <table>
+          <tr>
+            <td>Page Size :</td>
+            <td><input id="settings_mainsize" type="range" min="0" max="30" value="8" name="settings_mainsize" /></td>
+          </tr>
+          <tr>
+            <td>Display type :</td>
+            <td id="settings_display"><input id="settings_display-list" type="radio" name="settings_display" checked value="list"><label for="settings_display-list">List</label> <input id="settings_display-grid" type="radio" name="settings_display" value="grid"><label for="settings_display-grid">Grid</label></td>
+          </tr>
+        </table>
+        <p id="copy" style="position:absolute;bottom:.5em">Copyright &copy; 2016, 7kry &amp; skielred.</p>
+      </div>
+    </div>
+  </body>
 </html>
+<!--
+  vim:et:ts=2:sts=2:sw=2
+-->

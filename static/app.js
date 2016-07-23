@@ -77,6 +77,10 @@ $(document).ready(function() {
     'callback': function() {
       fetch(parseInt($('#pics > li:nth-child(1)').attr('data-imgid')) + 100);
     }});
+  $(window).bottom();
+  $(window).bind('bottom', function() {
+    fetch(parseInt($('#pics > li:nth-last-child(1)').attr('data-imgid')) - 1);
+  });
   fetch(null);
 });
 // vim:et:ts=2:sts=2:sw=2
