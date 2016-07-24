@@ -19,11 +19,7 @@ body {
   max-width: 828px;
 }
 #pics li {
-  margin: 5px auto;
-}
-#pics.grid li {
-  /* This is for grid view to actually be a grid */
-  width: calc(33% - 10px);
+  margin: 5px 10px;
   display: inline-block;
   /* This is for grid view to not appear weird */
   vertical-align: top;

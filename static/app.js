@@ -1,12 +1,3 @@
-// UI functions
-function settings_switch() {
-  var p = document.getElementById('settings');
-  if (p.className == '') {
-    p.className = 'active';
-  } else {
-    p.className = '';
-  }
-}
 function fetch(maxid) {
   if (typeof(maxid) === null){
     maxid = $.cookie('latestid');
@@ -21,7 +12,8 @@ function fetch(maxid) {
       }
       var li = $('<li>')
         .attr({
-          'data-imgid': ent['id']
+          'data-imgid': ent['id'],
+          'style': 'width: calc(' + 100 / $('#settings_picsrow').val() + '% - 20px)'
         }).append(
           $('<a>')
           .attr({
@@ -40,38 +32,39 @@ function fetch(maxid) {
     });
   });
 }
+function settings_switch() { // Settings button
+  var p = document.getElementById('settings');
+  if (p.className == '') {
+    p.className = 'active';
+  } else {
+    p.className = '';
+  }
+}
 $(document).ready(function() {
-  $('#settings_mainsize').on("change mousemove", function() {
+  $('#settings_mainsize').on("change mousemove", function() { // Page size setting function
     var v = $(this).val() * 66 + 300;
     $('#pics').css("max-width", v + 'px');
     $.cookie('mainsize', $(this).val());
   });
+  $('#settings_picsrow').on('change', function() {
+    $('#pics li').css('width', 'calc(' + 100 / $(this).val() + '% - 20px)');
+    $.cookie('picsrow', $(this).val());
+  });
+  // Instant invoke function to restore previously used settings through cookies
   (function() {
     var v = $.cookie('mainsize');
     if (typeof(v) != 'undefined') {
+      // Restore page size setting
       $('#pics').css("max-width", (v * 66 + 300) + 'px');
       $('#settings_mainsize').val(v);
     }
-    v = $.cookie('grid');
-    if (v === '1') {
-      $('#pics').addClass('grid');
-      $('#settings_display-list').prop('checked', false);
-      $('#settings_display-grid').prop('checked', true);
-    } else {
-      $('#pics').removeClass('grid');
-      $('#settings_display-list').prop('checked', true);
-      $('#settings_display-grid').prop('checked', false);
+    v = $.cookie('picsrow');
+    if (typeof(v) != 'undefined') {
+      // Restore images per row setting
+      $('#pics li').css('width', 'calc(' + 100 / v + '% - 20px)');
+      $('#settings_picsrow').val(v);
     }
   })();
-  $('#settings_display input').on('change', function() {
-    if ($('input[name=settings_display]:checked', '#settings_display').val() === 'list') {
-      $('#pics').removeClass('grid');
-      $.cookie('grid', '0');
-    } else {
-      $('#pics').addClass('grid')
-      $.cookie('grid', '1');
-    }
-  });
   $('#hook').hook({
     'refresh': false,
     'callback': function() {
@@ -83,4 +76,3 @@ $(document).ready(function() {
   });
   fetch(null);
 });
-// vim:et:ts=2:sts=2:sw=2
