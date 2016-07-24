@@ -20,8 +20,6 @@ body {
 }
 #pics li {
   margin: 5px 10px;
-  /* The 100% may change if user change images per row setting */
-  width: calc(100% - 20px);
   display: inline-block;
   /* This is for grid view to not appear weird */
   vertical-align: top;
