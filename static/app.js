@@ -2,8 +2,9 @@ function fetch(maxid) {
   if (typeof(maxid) === null){
     maxid = $.cookie('latestid');
   }
+  var prepend = $('#pics > li').length < 1 || maxid > $('#pics > li:nth-child(1)').attr('data-imgid');
   $.ajax('/list.json?maxid=' + maxid).done(function(data) {
-    data['imgs'].forEach(function(ent) {
+    (prepend ? data['imgs'].reverse() : data['imgs']).forEach(function(ent) {
       if ($('#pics > a[data-imgid=' + ent['id'] + ']').length > 0) {
         return;
       }
@@ -24,7 +25,7 @@ function fetch(maxid) {
               'src': ent['src'],
               'alt': ent['alt']
             })));
-      if ($('#pics > li').length < 1 || ent['id'] > $('#pics > li:nth-child(1)').attr('data-imgid')) {
+      if (prepend) {
         li.prependTo('#pics');
       } else {
         li.appendTo('#pics');
